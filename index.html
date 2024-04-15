@@ -39,8 +39,8 @@
       var infoWindow = [];
       var windowOpened;
       var txt;
-      var Col;  
-
+      var Col;
+	  
 function parseData(data) {
       var keys = data.values[0];
       var markerData = [];
@@ -111,14 +111,43 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
       : "Error: Your browser doesn't support geolocation."
   );
   infoWindow.open(map);
-}    
+}    	
 
 function addMarker(i, data) {
-        var markerLatLng = new google.maps.LatLng({
+  var markerLatLng = new google.maps.LatLng({
           lat: Number(data['緯度']),
           lng: Number(data['経度'])
-        });
-	
+  });
+ const icon3 = { };
+ const label3 = { };	
+    const icon1 = {
+		fillColor: '#FF0000',                //塗り潰し色
+		fillOpacity: 0.8,                    //塗り潰し透過率
+		path: google.maps.SymbolPath.CIRCLE, //円を指定
+		scale: 8,                           //円のサイズ
+		strokeColor: '#000000',              //枠の色
+		strokeWeight: 1.0                    //枠の透過率
+	        };
+   const label1 = {
+		text: 'P',                           //ラベル文字
+		color: '#FFFFFF',                    //文字の色
+		fontSize: '10px'                     //文字のサイズ
+	       };	
+
+    const icon2 = {
+		fillColor: '#0055FF' ,                //塗り潰し色
+		fillOpacity: 0.8,                    //塗り潰し透過率
+		path: google.maps.SymbolPath.CIRCLE, //円を指定
+		scale: 15,                           //円のサイズ
+		strokeColor: '#FFFFFF' ,              //枠の色
+		strokeWeight: 1.0                    //枠の透過率
+	        };
+   const label2 = {
+		text: 'H',                           //ラベル文字
+		color: '#FFFFFF',                    //文字の色
+		fontSize: '10px'                     //文字のサイズ
+	       }; 
+
  if (data['pic'] === '1'){
             txt = 'P';
 	 Col = '#FF0000' ;
@@ -126,10 +155,10 @@ function addMarker(i, data) {
             txt = 'H';
 	  Col = '#0055FF' ;
           }	
-	
-        marker[i] = new google.maps.Marker({
+
+    marker[i] = new google.maps.Marker({
           position: markerLatLng,
-          map: map
+          map: map,
 	  icon: {
 		fillColor: Col ,                //塗り潰し色
 		fillOpacity: 0.8,                    //塗り潰し透過率
@@ -143,14 +172,13 @@ function addMarker(i, data) {
 		color: '#FFFFFF',                    //文字の色
 		fontSize: '15px'                     //文字のサイズ
 	       }
-        });
+     });
 
-        var info = '<div style="font-size:12px;font-weight:bold;margin-bottom:12px;">' + data['名称'] + '</div>';
-        infoWindow[i] = new google.maps.InfoWindow({
-          content: info
-        });
-
-        markerEvent(i);
+   var info = '<div style="font-size:12px;font-weight:bold;margin-bottom:12px;">' + data['名称'] +'</div>' + data['pic'] +'</div>';
+     infoWindow[i] = new google.maps.InfoWindow({
+     content: info
+     });
+   markerEvent(i);
 }
 
 function setData(markerData){
@@ -159,8 +187,8 @@ function setData(markerData){
           var latitude = markerData[i]['緯度'];
           if (!latitude) { continue; }
           addMarker(i, markerData[i]);
-          var name = markerData[i]['名称'];
-
+                var name = markerData[i]['名称'];
+                var pic = markerData[i]['pic'];
           sidebar_html += `<b>${i + 1}</b> <a href="javascript:openWindow(${i})">${name}<\/a><br />`;
         }
 
