@@ -38,6 +38,8 @@
       var marker = [];
       var infoWindow = [];
       var windowOpened;
+      var txt;
+      var Col;  
 
 function parseData(data) {
       var keys = data.values[0];
@@ -116,9 +118,31 @@ function addMarker(i, data) {
           lat: Number(data['緯度']),
           lng: Number(data['経度'])
         });
+	
+ if (data['pic'] === '1'){
+            txt = 'P';
+	 Col = '#FF0000' ;
+          } else {
+            txt = 'H';
+	  Col = '#0055FF' ;
+          }	
+	
         marker[i] = new google.maps.Marker({
           position: markerLatLng,
           map: map
+	  icon: {
+		fillColor: Col ,                //塗り潰し色
+		fillOpacity: 0.8,                    //塗り潰し透過率
+		path: google.maps.SymbolPath.CIRCLE, //円を指定
+		scale: 15,                           //円のサイズ
+		strokeColor: '#FFFFFF' ,              //枠の色
+		strokeWeight: 1.0                    //枠の透過率
+	        },
+	  label: {
+		text: txt,                           //ラベル文字
+		color: '#FFFFFF',                    //文字の色
+		fontSize: '15px'                     //文字のサイズ
+	       }
         });
 
         var info = '<div style="font-size:12px;font-weight:bold;margin-bottom:12px;">' + data['名称'] + '</div>';
